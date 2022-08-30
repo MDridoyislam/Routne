@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"  href="./stylesheets/style.css">
+
+</head>
+<body>
+    <div class="modal-wrapper" id="add-room-modal">
+        <div class="modal">
+          <a href="#" onclick="closeModal()" class="modal-close">+</a>
+          <div class="modal-title">
+            <h2>Add New Room</h2>
+          </div>
+          <div class="modal-body">
+            <form id="add-room-form" 
+            action="/teacher/addroom"
+            method="post">
+              <input type="text" placeholder="enter room number" name="roomnumber" />
+              <br>
+              <%= error.roomnumber  %>
+              <br>
+              <input type="text" placeholder="enter colums number" name="columsnumber" />
+              <br>
+              <%= error.columsnumber  %>
+              <br>
+              <input type="text" placeholder="enter rows number" name="rowsnumber" /> 
+              <br>
+              <%= error.rowsnumber  %>
+              <br>
+              <!-- <div class="radio">
+                <span>Room status?</span> 
+                <div>
+                <input type="radio" name="status" checked="checked" value=1><span>Active</span> 
+                <input type="radio" name="status" value=2><span>Inactive</span>
+              </div>               
+              </div> -->
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ---------------------------------- -->
+      <div class="manageAddRoom-container">
+        <div id="title">
+          <h2>Manage Room</h2>
+        </div>
+  
+        <div class="new-room-container new-room">
+            <a href="#" onclick="openModal()">+</a>
+        </div>
+  
+        <div id="rooms-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Room Number</th>
+                <!-- <th>Seat Capacity</th> -->
+                <th>Colums Number</th>
+                <th>Row Number</th>
+                <!-- <th>Created Date</th> -->
+                <!-- <th>Status</th> -->
+                <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody id="rooms-table">
+              <% for(let room of rooms){%>
+                <tr id="">
+                  <td class="room-number">
+                    <%= room.roomnumber  %>
+                  </td>
+                  <td class="seat-capacity">
+                      <span><%= room.columsnumber  %></span>
+                  </td>
+                  <td class="colums-number">
+                      <span><%= room.rowsnumber   %></span>
+                  </td>
+                  <td class="col">
+                    <span>p</span>
+                </td>
+   
+                    <td class="manage">
+                      <button
+                         class="edit-Button"
+                         onclick="edit"
+                          editRoomnumber = "<%= room.roomnumber %> "
+                          editColumsnumber = "<%= room.columsnumber %> "
+                          editRowsnumber = "<%= room.rowsnumber %> "
+                          editId = "<%= room._id %> "
+                      >
+                     <p id="pis"> <%= room.roomnumber %></p>
+
+                          <p class="a">Edit</p>
+
+                    </button>
+                    </td>
+                    <td>
+                      <a href="/teacher/delete/<%= room._id %> " onclick="openDeleteModal()">
+                        <img class="delete" src="./imges/delete.png" alt="Delete" />
+                      </a>
+                    </td>
+                </tr>
+                
+                <%} %> 
+              
+              </tbody>
+             
+              </table>
+              </div>
+              </div>
+</body>
+<script>
+
+  let editBtn = document.getElementsByClassName("edit-Button");
+  editBtn.addEventListener("click", function(){
+    let editBtn = document.getElementsByClassName("edit-Button").parentElement;
+  console.log(editBtn);
+  });
+
+
+
+  window.onload =function(){
+    let editBtn = document.getElementsByClassName("edit-Button");
+    let forminfo = document.getElementById("add-room-form");
+    let p = document.getElementById("pis");
+
+
+    ;[...editBtn].forEach(g =>{
+      g.addEventListener('click', function(infbtn){
+        let {roomnumber,columsnumber,rowsnumber} = infbtn.target.dataset
+        console.log(roomnumber)
+        forminfo[0].value = p;
+        forminfo[1].value = columsnumber;
+        forminfo[2].value = rowsnumber;
+        // forminfo[0].value = roomnumber;
+      })
+    });  
+  }
+
+
+</script>
+</html>
